@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <style>
+      #main {
+        text-align: center;
+      }
+      #profile-image {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        border: solid rgb(63, 59, 59) 5px;
+      }
+      .table,
+      td,
+      th {
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px;
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading">loading......</div>
+    <div id="main" hidden>
+      <img id="profile-image" />
+      <h1 id="name"></h1>
+      <h3 id="bio"></h3>
+      <h4 id="followers"></h4>
+      <p>Follow me on <a id="follow_me" href="" target="_blank">GitHub</a></p>
+
+      <h2><u> My Project</u></h2>
+      <table class="table">
+        <tr>
+          <th><h3 id="project-name1"></h3></th>
+          <th><h3 id="project-name2"></h3></th>
+          <th><h3 id="project-name3"></h3></th>
+          <th><h3 id="project-name4"></h3></th>
+        </tr>
+
+        <tr>
+          <td>
+            <h3><a id="link1" href="" target="_blank">Link</a></h3>
+          </td>
+
+          <td>
+            <h3><a id="link2" href="" target="_blank">Link</a></h3>
+          </td>
+
+          <td>
+            <h3><a id="link3" href="" target="_blank">Link</a></h3>
+          </td>
+
+          <td>
+            <h3><a id="link4" href="" target="_blank">Link</a></h3>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <script>
+      fetch("https://api.github.com/users/RyshuCdy")
+        .then((response) => response.json())
+        .then(function (data) {
+          console.log(data);
+
+          const followerCount = data["followers"];
+          const followerInfo = `I have been followed by ${followerCount} peoples on GitHub`;
+          document.getElementById("profile-image").src = data["avatar_url"];
+          document.getElementById("name").textContent = data["name"];
+          document.getElementById("bio").textContent = data["bio"];
+          document.getElementById("followers").textContent = followerInfo;
+          document.getElementById("follow_me").href = data["html_url"];
+          document.getElementById("main").hidden = false;
+          document.getElementById("loading").hidden = true;
+        });
+
+      fetch("https://api.github.com/users/RyshuCdy/repos")
+        .then((response) => response.json())
+        .then(function (data) {
+          console.log(data);
+          document.getElementById("project-name1").textContent =
+            data[1]["name"];
+          document.getElementById("link1").href = data[1]["html_url"];
+
+          document.getElementById("project-name2").textContent =
+            data[3]["name"];
+          document.getElementById("link2").href = data[3]["html_url"];
+
+          document.getElementById("project-name3").textContent =
+            data[7]["name"];
+          document.getElementById("link3").href = data[7]["html_url"];
+
+          document.getElementById("project-name4").textContent =
+            data[8]["name"];
+          document.getElementById("link4").href = data[8]["html_url"];
+        });
+    </script>
+  </body>
+</html>
